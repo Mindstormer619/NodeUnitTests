@@ -34,7 +34,7 @@ describe('services/fileReader', function() {
         it('should obtain nothing other than caps (A-Z) from the file', function() {
             return fileReader.getCapitalLetters('public/file5KB.txt')
             .should.eventually
-            .match(/^[A-Z]+/);
+            .match(/^[A-Z]+$/);
         });
 
         it('should throw exception when file does not exist', function() {
