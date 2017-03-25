@@ -4,7 +4,7 @@ var should = require('should');
 describe('Array', function() {
     describe('#indexOf()', function() {
         it('should return -1 when value is not present', function() {
-            assert.equal(-1, [1, 2, 4].indexOf(3));
+            assert.equal(-1, [1, 2, 4].indexOf(5));
         });
     });
 });
@@ -18,9 +18,7 @@ describe('services/fileReader', function() {
         it('should get filesize as 5000 when reading 5KB file', function() {
             return fileReader.reportFileSize('public/file5KB.txt')
             .should.eventually
-            .equal(5000)
-            .and.be.above(3000)
-            .and.be.below(6000);
+            .equal(5000);
         });
 
         it('should fail when file is not found', function() {
