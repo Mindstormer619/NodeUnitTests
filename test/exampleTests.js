@@ -1,5 +1,7 @@
 var assert = require('assert');
 var should = require('should');
+var sinon = require('sinon');
+var Promise = require('bluebird');
 
 describe('Array', function() {
     describe('#indexOf()', function() {
@@ -38,6 +40,31 @@ describe('services/fileReader', function() {
         it('should throw exception when file does not exist', function() {
             return fileReader.getCapitalLetters('fileThatDoesntExist.txt')
             .should.be.rejected();
+        });
+    });
+});
+
+describe('stubbed services/fileReader', function() {
+    var fileReader = require('app/services/fileReader');
+    var fs = Promise.promisifyAll(require('fs'));
+
+    var sandbox = sinon.sandbox.create();
+
+    beforeEach(function() {
+        sandbox.stub(fs, "stat").callsFake(function(err, callback) {
+            return callback(null, {size: 6000});
+        });
+    });
+
+    afterEach(function() {
+        sandbox.restore();
+    });
+
+    describe('#reportFileSize', function() {
+        it('should get filesize as 6000', function() {
+            return fileReader.reportFileSize('public/file5KB.txt')
+            .should.eventually
+            .equal(6000);
         });
     });
 });
